@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width"/>
+    <title></title>
+    <link href="/static/css/font-awesome.min.css" rel="stylesheet"/>
+    <link href="/static/css/site.css" rel="stylesheet"/>
+</head>
+<body>
+<div class="sidebar-left">
+    <div class="logo-outer small">
+        <a href="/">
+            <img src="/static/img/logo.png"/>
+        </a>
+    </div>
+    <div class="menu-list">
+        <a href="/storage">
+            <div class="menu-item orange active">
+                <i class="fa fa-pie-chart"></i>
+                Storage
+            </div>
+        </a>
+        <div class="menu-item green">
+            <i class="fa fa-database"></i>
+            Database
+        </div>
+        <div class="menu-item yellow">
+            <i class="fa fa-globe"></i>
+            Web App
+        </div>
+        <div class="menu-item cyan">
+            <i class="fa fa-microchip"></i>
+            GPU Computing
+        </div>
+        <div class="menu-item pink">
+            <i class="fa fa-mixcloud"></i>
+            CDN
+        </div>
+        <div class="menu-item purple">
+            <i class="fa fa-balance-scale"></i>
+            Load Balance
+        </div>
+        <div class="menu-item blue">
+            <i class="fa fa-money"></i>
+            Billing
+        </div>
+        <div class="menu-item gray">
+            <i class="fa fa-sign-out"></i>
+            Sign Out
+        </div>
+    </div>
+</div>
+<div class="sidebar-right" id="app">
+    <div class="chain-outer">
+        <h2 class="header">文件存储结构</h2>
+        <div class="chain" v-for="chain in chains">
+            <template v-for="(block, index) in chain">
+                <div class="chain-block" >
+                    <div class="chain-block-number">Block #${index+1}</div>
+                    <div class="chain-block-role">(${block.role})</div>
+                    <div class="chain-block-node">${block.address}</div>
+                </div>
+                <div class="chain-arrow"><img src="/static/img/arrow.png"/></div>
+            </template>
+
+            <!--<div class="chain-block">-->
+                <!--<div class="chain-block-number">Block #2</div>-->
+                <!--<div class="chain-block-role">(Master)</div>-->
+                <!--<div class="chain-block-node">0ab9486558a9</div>-->
+            <!--</div>-->
+            <!--<div class="chain-arrow"><img src="/static/img/arrow.png"/></div>-->
+            <!--<div class="chain-block error">-->
+                <!--<div class="chain-block-number">Block #3</div>-->
+                <!--<div class="chain-block-role">(Master)</div>-->
+                <!--<div class="chain-block-node">b9480a6558a9(offline)</div>-->
+            <!--</div>-->
+            <!--<div class="chain-arrow"><img src="/static/img/arrow.png"/></div>-->
+            <!--<div class="chain-block">-->
+                <!--<div class="chain-block-number">Block #4</div>-->
+                <!--<div class="chain-block-role">(Master)</div>-->
+                <!--<div class="chain-block-node">b9480a6558a9</div>-->
+            <!--</div>-->
+            <!--<div class="chain-arrow"><img src="/static/img/arrow.png"/></div>-->
+            <div class="chain-block pending">
+                <div class="chain-block-number">Block #${chain.length + 1}</div>
+                <div class="chain-block-role">(Master)</div>
+                <div class="chain-block-node">Electing...</div>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+</body>
+
+
+<script src="https://unpkg.com/vue@2.5.2/dist/vue.js"></script>
+<script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+<script type="text/babel">
+    var app = new Vue({
+        el: '#app',
+        delimiters: ['${', '}'],
+        data: {
+            chains: [[
+                {"role": "Master", "address": "xxx(GUID)", "status": "ok, offline, electing"},
+                {"role": "Master", "address": "xxx(GUID)", "status": "ok, offline, electing"},
+                {"role": "Master", "address": "xxx(GUID)", "status": "ok, offline, electing"},
+            ],
+                [
+                    {"role": "Slave #1", "address": "xxx(GUID)", "status": "ok, offline, electing"},
+                    {"role": "Slave #1", "address": "xxx(GUID)", "status": "ok, offline, electing"},
+                    {"role": "Slave #1", "address": "xxx(GUID)", "status": "ok, offline, electing"},
+                ],
+                [
+                    {"role": "Slave #2", "address": "xxx(GUID)", "status": "ok, offline, electing"},
+                    {"role": "Slave #2", "address": "xxx(GUID)", "status": "ok, offline, electing"},
+                    {"role": "Slave #2", "address": "xxx(GUID)", "status": "ok, offline, electing"},
+                ],
+            ]
+
+        }
+    })
+
+</script>
+
+</html>

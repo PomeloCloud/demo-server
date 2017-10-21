@@ -1,0 +1,107 @@
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title></title>
+    <link href="/static/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="/static/css/site.css" rel="stylesheet" />
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.js"></script>
+</head>
+<body>
+<div class="sidebar-left">
+    <div class="logo-outer small">
+        <a href="/">
+            <img src="/static/img/logo.png" />
+        </a>
+    </div>
+    <div class="menu-list">
+        <a href="/storage">
+            <div class="menu-item orange active">
+                <i class="fa fa-pie-chart"></i>
+                Storage
+            </div>
+        </a>
+        <div class="menu-item green">
+            <i class="fa fa-database"></i>
+            Database
+        </div>
+        <div class="menu-item yellow">
+            <i class="fa fa-globe"></i>
+            Web App
+        </div>
+        <div class="menu-item cyan">
+            <i class="fa fa-microchip"></i>
+            GPU Computing
+        </div>
+        <div class="menu-item pink">
+            <i class="fa fa-mixcloud"></i>
+            CDN
+        </div>
+        <div class="menu-item purple">
+            <i class="fa fa-balance-scale"></i>
+            Load Balance
+        </div>
+        <div class="menu-item blue">
+            <i class="fa fa-money"></i>
+            Billing
+        </div>
+        <div class="menu-item gray">
+            <i class="fa fa-sign-out"></i>
+            Sign Out
+        </div>
+    </div>
+</div>
+<div class="sidebar-right" id="app">
+    <div id="output"></div>
+    <input type="file" style="display: none" id="file" />
+
+    <div class="file-item special" id="btnCreateFile">
+        <div class="file-icon"><i class="fa fa-plus"></i></div>
+        <div class="file-description">
+            <h3>Create a file</h3>
+            <p>Click to create a file storage contract.</p>
+        </div>
+    </div>
+    <div class="file-item" v-for="file in files" v-on:click="redirect()">
+        <div class="file-icon"><i class="fa fa-file"></i></div>
+        <div class="file-description">
+            <h3>${file.filename}</h3>
+            <p>${file.contract}</p>
+        </div>
+    </div>
+</div>
+</body>
+
+<script src="https://unpkg.com/vue@2.5.2/dist/vue.js"></script>
+<script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+<script type="text/babel">
+    var app = new Vue({
+        el: '#app',
+        delimiters: ['${', '}'],
+        data: {
+            mmm: "123",
+            files: [
+                { "filename": "test.zip", "contract": "xxxxxx(GUID)" },
+                { "filename": "test.zip", "contract": "xxxxxx(GUID)" },
+                { "filename": "test.zip", "contract": "xxxxxx(GUID)" },
+                { "filename": "test.zip", "contract": "xxxxxx(GUID)" },
+                { "filename": "test1.zip", "contract": "xxxxxx(GUID)" },
+                { "filename": "test2.zip", "contract": "xxxxxx(GUID)" },
+                { "filename": "test3.zip", "contract": "xxxxxx(GUID)" },
+                { "filename": "test5.zip", "contract": "xxxxxx(GUID)" }
+            ]
+
+        },
+        methods: {
+            redirect: ()=>{
+                window.location.href ='/storage/show'
+            }
+        }
+    })
+
+</script>
+
+
+</html>
