@@ -1,5 +1,5 @@
 {
   "Db": "wallet/",
-  "Address": "localhost:4561",
+  "Address": "server3:4561",
   "Bootstraps": ["server1:4561", "server2:4561"]
 }

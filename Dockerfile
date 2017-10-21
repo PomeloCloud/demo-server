@@ -10,4 +10,4 @@ RUN go-wrapper install    # "go install -v ./..."
 
 EXPOSE 4561 8080
 
-CMD ["go-wrapper", "run"]
+CMD ["sh", "run-after-sleep.sh"]
