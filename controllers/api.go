@@ -27,11 +27,7 @@ type GetFileController struct {
 	beego.Controller
 }
 
-func (c *GetFileController) Get() {
-	c.TplName = "index.html"
-}
-
-func (this *GetFileController) GetFileList() {
+func (this *GetFileController) Get() {
 	home := fmt.Sprint("/", strconv.Itoa(int(storage.FS.Network.BFTRaft.Id)))
 	dir := storage.FS.Ls(home)
 	fileList := []File{}
@@ -47,7 +43,11 @@ func (this *GetFileController) GetFileList() {
 	this.ServeJSON()
 }
 
-func (this *GetFileController) GetFileBlocksList() {
+type GetFileBlocksListController struct {
+	beego.Controller
+}
+
+func (this *GetFileBlocksListController) Get() {
 	file := fmt.Sprint("/", strconv.Itoa(int(storage.FS.Network.BFTRaft.Id)), "/", this.Ctx.Input.Param("filename"))
 	stream, err := storage.FS.NewStream(file)
 	if err != nil {
