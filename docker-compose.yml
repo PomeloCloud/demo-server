@@ -3,35 +3,35 @@ services:
   server1:
     image: demo-server
     volumes:
-      - "network1.json:/go/src/app/network.json:ro"
+      - "${PWD}/network1.json:/go/src/app/network.json:ro"
     ports:
       - "8080:8080"
       - "4561:4561"
   server2:
     image: demo-server
     volumes:
-      - "network2.json:/go/src/app/network.json:ro"
+      - "${PWD}/network2.json:/go/src/app/network.json:ro"
     ports:
       - "8081:8080"
       - "4562:4561"
   server3:
     image: demo-server
     volumes:
-      - "network3.json:/go/src/app/network.json:ro"
+      - "${PWD}/network3.json:/go/src/app/network.json:ro"
     ports:
       - "8082:8080"
       - "4563:4561"
   server4:
     image: demo-server
     volumes:
-      - "network4.json:/go/src/app/network.json:ro"
+      - "${PWD}/network4.json:/go/src/app/network.json:ro"
     ports:
       - "8083:8080"
       - "4564:4561"
   server5:
     image: demo-server
     volumes:
-      - "network5.json:/go/src/app/network.json:ro"
+      - "${PWD}/network5.json:/go/src/app/network.json:ro"
     ports:
       - "8084:8080"
       - "4565:4561"

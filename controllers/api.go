@@ -3,8 +3,6 @@ package controllers
 import (
 	"github.com/astaxie/beego"
 	"github.com/PomeloCloud/pcfs/drone/storage"
-	"fmt"
-	"strconv"
 	"github.com/PomeloCloud/pcfs/proto"
 	"encoding/base64"
 	"github.com/PomeloCloud/pcfs/server"
@@ -28,7 +26,7 @@ type GetFileController struct {
 }
 
 func (this *GetFileController) Get() {
-	home := fmt.Sprint("/", strconv.Itoa(int(storage.FS.Network.BFTRaft.Id)))
+	home := storage.FS.Home()
 	dir := storage.FS.Ls(home)
 	fileList := []File{}
 	for _, f := range dir.Items {
@@ -39,7 +37,7 @@ func (this *GetFileController) Get() {
 			})
 		}
 	}
-	this.Data["list"] = fileList
+	this.Data["json"] = fileList
 	this.ServeJSON()
 }
 
@@ -48,7 +46,7 @@ type GetFileBlocksListController struct {
 }
 
 func (this *GetFileBlocksListController) Get() {
-	file := fmt.Sprint("/", strconv.Itoa(int(storage.FS.Network.BFTRaft.Id)), "/", this.Ctx.Input.Param("filename"))
+	file := storage.FS.Home() + "/" + this.Ctx.Input.Query("filename")
 	stream, err := storage.FS.NewStream(file)
 	if err != nil {
 		panic(err)
@@ -77,6 +75,6 @@ func (this *GetFileBlocksListController) Get() {
 		}
 		blockNodeList = append(blockNodeList, nodes)
 	}
-	this.Data["list"] = blockNodeList
+	this.Data["json"] = blockNodeList
 	this.ServeJSON()
 }
