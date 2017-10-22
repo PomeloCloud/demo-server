@@ -71,7 +71,13 @@
             <p>${file.contract}</p>
         </div>
     </div>
-</div>
+
+    <form id="uploadForm" enctype="multipart/form-data" method="POST"  action="/api/file/upload">
+        <input id="filename" type="file" name="file"/>
+        <button   type="submit" name="submit" value="Submit">upload</button>
+    </form>
+
+    </div>
 </body>
 
 <script src="https://unpkg.com/vue@2.5.2/dist/vue.js"></script>

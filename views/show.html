@@ -92,6 +92,10 @@
         </div>
 
 
+
+        <div v-on:click="redirectD(file)">
+            下载
+        </div>
     </div>
 </div>
 </body>
@@ -100,6 +104,9 @@
 <script src="https://unpkg.com/vue@2.5.2/dist/vue.js"></script>
 <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
 <script type="text/babel">
+    let url = new URL(window.location.href)
+    let filename = url.searchParams.get("filename");
+
     var app = new Vue({
         el: '#app',
         delimiters: ['${', '}'],
@@ -108,8 +115,6 @@
 
         },
         created: function () {
-            let url = new URL(window.location.href)
-            let filename = url.searchParams.get("filename");
 
             let that = this;
             // `this` 指向 vm 实例
@@ -133,6 +138,11 @@
             });
 
         },
+        methods: {
+            redirectD: (file)=>{
+                window.location.href =`/api/file/download/?filename=${filename}`
+            }
+        }
     })
 
 </script>
