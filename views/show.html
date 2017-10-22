@@ -66,6 +66,32 @@
                 <div class="chain-arrow"><img src="/static/img/arrow.png"/></div>
                 </template>
             </template>
+        </div>
+        <div class="chain" >
+            <template v-for="(block, index) in chains1">
+
+                <!--<template v-for="(block, index) in chain[0]">-->
+                <div class="chain-block" >
+                    <div class="chain-block-number">Block #${index+1}</div>
+                    <div class="chain-block-role">(Replica0)</div>
+                    <div class="chain-block-node">${block.address}</div>
+                </div>
+                <div class="chain-arrow"><img src="/static/img/arrow.png"/></div>
+            </template>
+    </div>
+            </template>
+        <div class="chain" >
+            <template v-for="(block, index) in chains2">
+
+                <!--<template v-for="(block, index) in chain[0]">-->
+                <div class="chain-block" >
+                    <div class="chain-block-number">Block #${index+1}</div>
+                    <div class="chain-block-role">(Replica1)</div>
+                    <div class="chain-block-node">${block.address}</div>
+                </div>
+                <div class="chain-arrow"><img src="/static/img/arrow.png"/></div>
+            </template>
+            </template>
             <!--<div class="chain-block">-->
                 <!--<div class="chain-block-number">Block #2</div>-->
                 <!--<div class="chain-block-role">(Master)</div>-->
@@ -84,11 +110,11 @@
                 <!--<div class="chain-block-node">b9480a6558a9</div>-->
             <!--</div>-->
             <!--<div class="chain-arrow"><img src="/static/img/arrow.png"/></div>-->
-            <div class="chain-block pending">
-                <div class="chain-block-number">Block</div>
-                <div class="chain-block-role">(Master)</div>
-                <div class="chain-block-node">Electing...</div>
-            </div>
+            <!--<div class="chain-block pending">-->
+                <!--<div class="chain-block-number">Block</div>-->
+                <!--<div class="chain-block-role">(Master)</div>-->
+                <!--<div class="chain-block-node">Electing...</div>-->
+            <!--</div>-->
         </div>
 
 
@@ -104,6 +130,22 @@
 <script src="https://unpkg.com/vue@2.5.2/dist/vue.js"></script>
 <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
 <script type="text/babel">
+
+    function deepClone (obj) {
+        var _out = new obj.constructor;
+
+        var getType = function (n) {
+            return Object.prototype.toString.call(n).slice(8, -1);
+        }
+
+        for (var _key in obj) {
+            if (obj.hasOwnProperty(_key)) {
+                _out[_key] = getType(obj[_key]) === 'Object' || getType(obj[_key]) === 'Array' ? deepClone(obj[_key]) : obj[_key];
+            }
+        }
+        return _out;
+    }
+
     let url = new URL(window.location.href)
     let filename = url.searchParams.get("filename");
 
@@ -111,7 +153,9 @@
         el: '#app',
         delimiters: ['${', '}'],
         data: {
-            chains: []
+            chains: [],
+            chains1: [],
+            chains2: []
 
         },
         created: function () {
@@ -123,9 +167,17 @@
                 if (res.ok) {
                     res.json().then(function(data) {
                         data.forEach( (item)=>{
-//                            = contract.substring(0, 12);
-                            item[0].address = item[0].address.substring(0, 12).toUpperCase();
-                            that.chains.push(item[0])
+                            let data = deepClone(item[0])
+                            console.log(data.address.substring(0, 6).toUpperCase())
+                            data.address = data.address.substring(0, 6).toUpperCase();
+                            that.chains.push(data)
+                            let data1 = deepClone(item[0])
+                            data1.address = data1.address.substring(6, 12).toUpperCase();
+                            that.chains1.push(data1)
+                            let data2 = deepClone(item[0])
+                            data2.address = data2.address.substring(12, 18).toUpperCase();
+                            that.chains2.push(data2)
+
                         })
 //                        that.chains =
 //                        that.chains.push(ch)
