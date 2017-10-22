@@ -10,6 +10,7 @@ import (
 	"context"
 	"log"
 	"fmt"
+	"github.com/PomeloCloud/BFTRaft4go/utils"
 )
 
 
@@ -70,8 +71,9 @@ func (this *GetFileBlocksListController) Get() {
 				status = "Offline"
 
 			}
-			strKey := fmt.Sprint(hostId, "-", block.Index, "-", stream.Meta.Key)
-			node.Address = base64.StdEncoding.EncodeToString([]byte(strKey))
+			strKey := fmt.Sprint(hostId, "-", i, "-", stream.Meta.Key)
+			hash, _ := utils.SHA1Hash([]byte(strKey))
+			node.Address = base64.StdEncoding.EncodeToString(hash)
 			node.Status = status
 			if i == 0 {
 				node.Role = "Master"
