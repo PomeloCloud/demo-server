@@ -12,5 +12,5 @@ func init() {
 	beego.Router("/storage/show", &controllers.StorageShowController{})
 	beego.Router("/api/file/list", &controllers.GetFileController{})
 	beego.Router("/api/block/list", &controllers.GetFileBlocksListController{})
-	beego.Router("/api/file/upload", &controllers.GetFileBlocksListController{})
+	beego.Router("/api/file/upload", &controllers.UploadFileController{})
 }

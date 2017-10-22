@@ -68,6 +68,7 @@ func (this *GetFileBlocksListController) Get() {
 			status := "Online"
 			if !blockOnline {
 				status = "Offline"
+
 			}
 			node.Address = host.ServerAddr
 			node.Status = status
