@@ -17,7 +17,7 @@ services:
       - "8081:8080"
       - "4562:4561"
     environment:
-      - DELAY=20
+      - DELAY=15
   server3:
     image: demo-server
     volumes:
@@ -26,7 +26,7 @@ services:
       - "8082:8080"
       - "4563:4561"
     environment:
-      - DELAY=40
+      - DELAY=35
 #  server4:
 #    image: demo-server
 #    volumes:
