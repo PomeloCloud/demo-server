@@ -9,7 +9,6 @@ import (
 	pb "github.com/PomeloCloud/pcfs/proto"
 	"context"
 	"log"
-	"github.com/PomeloCloud/BFTRaft4go/utils"
 	"fmt"
 )
 
@@ -58,7 +57,6 @@ func (this *GetFileBlocksListController) Get() {
 	for _, block := range stream.Meta.Blocks {
 		nodes := []FileBlockNode{}
 		for i, hostId := range block.Hosts {
-			host := storage.FS.Network.BFTRaft.GetHostNTXN(hostId)
 			node := FileBlockNode{}
 			block, blockError := server.GetPeerRPC(node.Address).GetBlock(context.Background(), &pb.GetBlockRequest{
 				Group: server.STASH_GROUP, Index: block.Index, File: stream.Meta.Key,
