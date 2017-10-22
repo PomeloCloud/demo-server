@@ -27,21 +27,21 @@ services:
       - "4563:4561"
     environment:
       - DELAY=40
-  server4:
-    image: demo-server
-    volumes:
-      - "${PWD}/network4.json:/go/src/app/network.json:ro"
-    ports:
-      - "8083:8080"
-      - "4564:4561"
-    environment:
-      - DELAY=70
-  server5:
-    image: demo-server
-    volumes:
-      - "${PWD}/network5.json:/go/src/app/network.json:ro"
-    ports:
-      - "8084:8080"
-      - "4565:4561"
-    environment:
-      - DELAY=100
+#  server4:
+#    image: demo-server
+#    volumes:
+#      - "${PWD}/network4.json:/go/src/app/network.json:ro"
+#    ports:
+#      - "8083:8080"
+#      - "4564:4561"
+#    environment:
+#      - DELAY=70
+#  server5:
+#    image: demo-server
+#    volumes:
+#      - "${PWD}/network5.json:/go/src/app/network.json:ro"
+#    ports:
+#      - "8084:8080"
+#      - "4565:4561"
+#    environment:
+#      - DELAY=100
