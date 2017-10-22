@@ -71,7 +71,7 @@ func (this *GetFileBlocksListController) Get() {
 				status = "Offline"
 
 			}
-			strKey := fmt.Sprint(hostId, "-", i, "-", stream.Meta.Key)
+			strKey := fmt.Sprint(hostId, "-", block.Index, "-", i, "-", stream.Meta.Key)
 			hash, _ := utils.SHA1Hash([]byte(strKey))
 			node.Address = base64.StdEncoding.EncodeToString(hash)
 			node.Status = status
