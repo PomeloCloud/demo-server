@@ -55,7 +55,7 @@ func (this *GetFileBlocksListController) Get() {
 	blockNodeList := [][]FileBlockNode{}
 	for _, block := range stream.Meta.Blocks {
 		nodes := []FileBlockNode{}
-		for _, hostId := range block.Hosts {
+		for i, hostId := range block.Hosts {
 			host := storage.FS.Network.BFTRaft.GetHostNTXN(hostId)
 			node := FileBlockNode{}
 			block, blockError := server.GetPeerRPC(node.Address).GetBlock(context.Background(), &pb.GetBlockRequest{
@@ -71,7 +71,11 @@ func (this *GetFileBlocksListController) Get() {
 			}
 			node.Address = host.ServerAddr
 			node.Status = status
-			node.Role = "Replica"
+			if i == 0 {
+				node.Role = "Master"
+			} else {
+				node.Role = "Slave"
+			}
 			nodes = append(nodes, node)
 		}
 		blockNodeList = append(blockNodeList, nodes)
