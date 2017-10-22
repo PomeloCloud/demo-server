@@ -64,7 +64,7 @@
             <p>Click to create a file storage contract.</p>
         </div>
     </div>
-    <div class="file-item" v-for="file in files" v-on:click="redirect()">
+    <div class="file-item" v-for="file in files" v-on:click="redirect(file)">
         <div class="file-icon"><i class="fa fa-file"></i></div>
         <div class="file-description">
             <h3>${file.filename}</h3>
@@ -82,21 +82,43 @@
         delimiters: ['${', '}'],
         data: {
             mmm: "123",
+            a: 1,
             files: [
-                { "filename": "test.zip", "contract": "xxxxxx(GUID)" },
-                { "filename": "test.zip", "contract": "xxxxxx(GUID)" },
-                { "filename": "test.zip", "contract": "xxxxxx(GUID)" },
-                { "filename": "test.zip", "contract": "xxxxxx(GUID)" },
-                { "filename": "test1.zip", "contract": "xxxxxx(GUID)" },
-                { "filename": "test2.zip", "contract": "xxxxxx(GUID)" },
-                { "filename": "test3.zip", "contract": "xxxxxx(GUID)" },
-                { "filename": "test5.zip", "contract": "xxxxxx(GUID)" }
+//                { "filename": "test.zip", "contract": "xxxxxx(GUID)" },
+//                { "filename": "test.zip", "contract": "xxxxxx(GUID)" },
+//                { "filename": "test.zip", "contract": "xxxxxx(GUID)" },
+//                { "filename": "test.zip", "contract": "xxxxxx(GUID)" },
+//                { "filename": "test1.zip", "contract": "xxxxxx(GUID)" },
+//                { "filename": "test2.zip", "contract": "xxxxxx(GUID)" },
+//                { "filename": "test3.zip", "contract": "xxxxxx(GUID)" },
+//                { "filename": "test5.zip", "contract": "xxxxxx(GUID)" }
             ]
 
         },
+        created: function () {
+            let that = this;
+            // `this` 指向 vm 实例
+            fetch("http://localhost:8080/api/file/list").then(function(res) {
+                // res instanceof Response == true.
+                if (res.ok) {
+                    res.json().then(function(data) {
+                        that.files = data
+                        that.files.forEach( (item)=>{
+                            item.contract = item.contract.substring(0, 12).toUpperCase();
+                        })
+                    });
+                } else {
+                    console.log("Looks like the response wasn't perfect, got status", res.status);
+                }
+            }, function(e) {
+                console.log("Fetch failed!", e);
+            });
+
+            console.log('a is: ' + this.mmm)
+        },
         methods: {
-            redirect: ()=>{
-                window.location.href ='/storage/show'
+            redirect: (file)=>{
+                window.location.href =`/storage/show/?filename=${file.filename}`
             }
         }
     })

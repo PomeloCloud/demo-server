@@ -54,16 +54,18 @@
 <div class="sidebar-right" id="app">
     <div class="chain-outer">
         <h2 class="header">文件存储结构</h2>
-        <div class="chain" v-for="chain in chains">
-            <template v-for="(block, index) in chain">
+        <div class="chain" >
+            <template v-for="(block, index) in chains">
+
+            <!--<template v-for="(block, index) in chain[0]">-->
                 <div class="chain-block" >
                     <div class="chain-block-number">Block #${index+1}</div>
                     <div class="chain-block-role">(${block.role})</div>
                     <div class="chain-block-node">${block.address}</div>
                 </div>
                 <div class="chain-arrow"><img src="/static/img/arrow.png"/></div>
+                </template>
             </template>
-
             <!--<div class="chain-block">-->
                 <!--<div class="chain-block-number">Block #2</div>-->
                 <!--<div class="chain-block-role">(Master)</div>-->
@@ -83,7 +85,7 @@
             <!--</div>-->
             <!--<div class="chain-arrow"><img src="/static/img/arrow.png"/></div>-->
             <div class="chain-block pending">
-                <div class="chain-block-number">Block #${chain.length + 1}</div>
+                <div class="chain-block-number">Block</div>
                 <div class="chain-block-role">(Master)</div>
                 <div class="chain-block-node">Electing...</div>
             </div>
@@ -102,24 +104,35 @@
         el: '#app',
         delimiters: ['${', '}'],
         data: {
-            chains: [[
-                {"role": "Master", "address": "xxx(GUID)", "status": "ok, offline, electing"},
-                {"role": "Master", "address": "xxx(GUID)", "status": "ok, offline, electing"},
-                {"role": "Master", "address": "xxx(GUID)", "status": "ok, offline, electing"},
-            ],
-                [
-                    {"role": "Slave #1", "address": "xxx(GUID)", "status": "ok, offline, electing"},
-                    {"role": "Slave #1", "address": "xxx(GUID)", "status": "ok, offline, electing"},
-                    {"role": "Slave #1", "address": "xxx(GUID)", "status": "ok, offline, electing"},
-                ],
-                [
-                    {"role": "Slave #2", "address": "xxx(GUID)", "status": "ok, offline, electing"},
-                    {"role": "Slave #2", "address": "xxx(GUID)", "status": "ok, offline, electing"},
-                    {"role": "Slave #2", "address": "xxx(GUID)", "status": "ok, offline, electing"},
-                ],
-            ]
+            chains: []
 
-        }
+        },
+        created: function () {
+            let url = new URL(window.location.href)
+            let filename = url.searchParams.get("filename");
+
+            let that = this;
+            // `this` 指向 vm 实例
+            fetch(`http://localhost:8080/api/block/list?filename=${filename}`).then(function(res) {
+                // res instanceof Response == true.
+                if (res.ok) {
+                    res.json().then(function(data) {
+                        data.forEach( (item)=>{
+//                            = contract.substring(0, 12);
+                            item[0].address = item[0].address.substring(0, 12).toUpperCase();
+                            that.chains.push(item[0])
+                        })
+//                        that.chains =
+//                        that.chains.push(ch)
+                    });
+                } else {
+                    console.log("Looks like the response wasn't perfect, got status", res.status);
+                }
+            }, function(e) {
+                console.log("Fetch failed!", e);
+            });
+
+        },
     })
 
 </script>
