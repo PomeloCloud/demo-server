@@ -120,3 +120,31 @@ func (this *UploadFileController) Post() {
 	this.Data["json"] = map[string]string {"success": "true"}
 	this.ServeJSON()
 }
+
+type DownloadFileController struct {
+	beego.Controller
+}
+
+func (this *DownloadFileController) Get() {
+	filename := this.Ctx.Input.Query("filename")
+	this.Ctx.ResponseWriter.Header().Add("content-disposition", "attachment; filename=\"" + filename + "\"")
+	bufferSize := 1024
+	stream, err := storage.FS.NewStream(storage.FS.Home() + "/" + filename)
+	fo := this.Ctx.ResponseWriter
+	if err != nil {
+		panic(err)
+	}
+	for true {
+		b := make([]byte, bufferSize)
+		n, err := stream.Read(&b)
+		if err != nil {
+			panic(err)
+		}
+		wb := b[0:n]
+		fo.Write(wb)
+		if n < uint64(bufferSize) {
+			break
+		}
+	}
+	fo.Flush()
+}
