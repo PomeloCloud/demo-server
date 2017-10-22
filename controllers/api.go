@@ -59,11 +59,11 @@ func (this *GetFileBlocksListController) Get() {
 		nodes := []FileBlockNode{}
 		for i, hostId := range block.Hosts {
 			node := FileBlockNode{}
-			block, blockError := server.GetPeerRPC(node.Address).GetBlock(context.Background(), &pb.GetBlockRequest{
+			blockData, blockError := server.GetPeerRPC(node.Address).GetBlock(context.Background(), &pb.GetBlockRequest{
 				Group: server.STASH_GROUP, Index: block.Index, File: stream.Meta.Key,
 			})
 			blockOnline := true
-			if block == nil || blockError != nil {
+			if blockData == nil || blockError != nil {
 				blockOnline = true
 			}
 			status := "Online"
