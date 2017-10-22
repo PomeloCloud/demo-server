@@ -9,6 +9,8 @@ import (
 	pb "github.com/PomeloCloud/pcfs/proto"
 	"context"
 	"log"
+	"github.com/PomeloCloud/BFTRaft4go/utils"
+	"fmt"
 )
 
 
@@ -70,7 +72,8 @@ func (this *GetFileBlocksListController) Get() {
 				status = "Offline"
 
 			}
-			node.Address = host.ServerAddr
+			strKey := fmt.Sprint(hostId, "-", block.Index, "-", stream.Meta.Key)
+			node.Address = base64.StdEncoding.EncodeToString([]byte(strKey))
 			node.Status = status
 			if i == 0 {
 				node.Role = "Master"
@@ -91,6 +94,9 @@ type UploadFileController struct {
 
 func (this *UploadFileController) Post() {
 	file, header, err := this.GetFile("file")
+	if err != nil {
+		panic(err)
+	}
 	filePath := storage.FS.Home() + "/" + header.Filename
 	stream, err := storage.FS.NewStream(filePath)
 	if err != nil {
