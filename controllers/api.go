@@ -8,6 +8,7 @@ import (
 	"github.com/PomeloCloud/pcfs/server"
 	pb "github.com/PomeloCloud/pcfs/proto"
 	"context"
+	"log"
 )
 
 
@@ -76,5 +77,35 @@ func (this *GetFileBlocksListController) Get() {
 		blockNodeList = append(blockNodeList, nodes)
 	}
 	this.Data["json"] = blockNodeList
+	this.ServeJSON()
+}
+
+type UploadFileController struct {
+	beego.Controller
+}
+
+func (this *UploadFileController) Post() {
+	file, header, err := this.GetFile("file")
+	filePath := storage.FS.Home() + "/" + header.Filename
+	stream, err := storage.FS.NewStream(filePath)
+	if err != nil {
+		panic(err)
+	}
+	bufferSize := 1024
+	for true {
+		b := make([]byte, bufferSize)
+		n, err := file.Read(b)
+		if err != nil {
+			panic(err)
+		}
+		wb := b[0:n]
+		stream.Write(&wb)
+		if n < bufferSize {
+			break
+		}
+	}
+	stream.LandWrite()
+	log.Println("upload file succeed")
+	this.Data["json"] = map[string]string {"success": "true"}
 	this.ServeJSON()
 }
